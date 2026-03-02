@@ -30,7 +30,15 @@
   </label><br><br>
 
   <button type="submit">Kostenpflichtig beauftragen</button>
+<h3>Unterschrift*</h3>
+<canvas id="sig" width="600" height="200" style="border:1px solid #ccc; border-radius:8px; touch-action:none;"></canvas>
+<br>
+<button type="button" id="sigClear">Unterschrift löschen</button>
 
+<input type="hidden" name="signature_png" id="signature_png">
+<p id="sigStatus" style="color:#b00;"></p>
+<br>
+  
 </form>
 
 <p id="status"></p>
