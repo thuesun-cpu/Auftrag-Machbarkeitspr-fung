@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beauftragung Machbarkeitsprüfung</title>
+</head>
+<body>
+
+<h1>Beauftragung Machbarkeitsprüfung (150 € inkl. MwSt.)</h1>
+
+<form id="mpForm">
+
+  <input name="kunde_name" placeholder="Name" required><br><br>
+
+  <input type="email" name="kunde_email" placeholder="E-Mail" required><br><br>
+
+  <input name="kunde_tel" placeholder="Telefon" required><br><br>
+
+  <input name="kunde_rechnungsadresse" placeholder="Rechnungsadresse" required><br><br>
+
+  <label>
+    <input type="checkbox" name="private_zwecke" required>
+    Anlage dient überwiegend privaten Zwecken*
+  </label><br>
+
+  <label>
+    <input type="checkbox" name="ust0_voraussetzungen" required>
+    Voraussetzungen für 0% USt erfüllt*
+  </label><br><br>
+
+  <button type="submit">Kostenpflichtig beauftragen</button>
+
+</form>
+
+<p id="status"></p>
+
+<script>
+document.getElementById('mpForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.private_zwecke = !!data.private_zwecke;
+  data.ust0_voraussetzungen = !!data.ust0_voraussetzungen;
+
+  const res = await fetch('/api/machbarkeitspruefung', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data),
+  });
+
+  const txt = await res.text();
+  document.getElementById('status').innerText = txt;
+});
+</script>
+
+</body>
+</html>
