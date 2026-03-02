@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beauftragung Machbarkeitsprüfung | THüSUN</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#f6f7f9; color:#111; }
+    .wrap { max-width: 920px; margin: 32px auto; padding: 0 16px; }
+    .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    h2 { font-size: 16px; margin: 24px 0 10px; }
+    p, li { line-height: 1.4; }
+    .grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .grid-1 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    label { display:block; font-size: 13px; margin: 0 0 4px; }
+    input, textarea, select {
+      width: 100%; box-sizing: border-box; padding: 10px 12px;
+      border: 1px solid #cfd6df; border-radius: 10px; background:#fff; font-size: 14px;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .hint { font-size: 12px; color:#444; margin-top: 6px; }
+    .box { background:#f2f5f9; border:1px solid #d9e1ea; border-radius: 10px; padding: 12px; }
+    .checks label { display:flex; gap:10px; align-items:flex-start; font-size: 13px; margin: 10px 0; }
+    .checks input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; }
+    .row { display:flex; gap:12px; flex-wrap: wrap; }
+    .btn {
+      display:inline-block; border:0; padding: 12px 16px; border-radius: 10px;
+      background:#111; color:#fff; font-weight: 600; cursor:pointer;
+    }
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+    .footer { font-size: 12px; color:#444; margin-top: 14px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Beauftragung: Machbarkeitsprüfung Photovoltaik (Privat)</h1>
+      <p class="hint">
+        Bitte füllen Sie das Formular vollständig aus. Pflichtfelder sind mit * gekennzeichnet.
+      </p>
+
+      <!-- FIRMENDATEN (aus thuesun.de/impressum) -->
+      <div class="box" aria-label="Anbieterinformationen">
+        <strong>Auftragnehmer / Anbieter</strong><br />
+        THüSUN PV-Montagen GmbH, Blumenstraße 70 / Haus 1, 99092 Erfurt<br />
+        Telefon: 0361 60224463 · E-Mail: kontakt@thuesun.de · www.thuesun.de<br />
+        Registergericht: Jena · HRB 521685 · Geschäftsführer: Steffen Orschel · USt-IdNr.: DE366881373
+      </div>
+
+      <!-- WICHTIG: Backend-Endpunkt anpassen -->
+      <form method="post" action="/api/form/machbarkeitspruefung" accept-charset="utf-8">
+        <!-- Optionale versteckte Felder (für CRM/Zuordnung) -->
+        <input type="hidden" name="formular_typ" value="Beauftragung Machbarkeitsprüfung" />
+        <input type="hidden" name="preis_hinweis" value="150,00 EUR inkl. MwSt." />
+
+        <h2>Kundendaten</h2>
+        <div class="grid">
+          <div>
+            <label for="kunde_name">Name (Vor- und Nachname) *</label>
+            <input id="kunde_name" name="kunde_name" required autocomplete="name" />
+          </div>
+          <div>
+            <label for="kunde_email">E-Mail *</label>
+            <input id="kunde_email" name="kunde_email" type="email" required autocomplete="email" />
+          </div>
+          <div>
+            <label for="kunde_tel">Telefon *</label>
+            <input id="kunde_tel" name="kunde_tel" required autocomplete="tel" />
+          </div>
+          <div>
+            <label for="kunde_rechnungsadresse">Rechnungsadresse (Straße, Nr., PLZ, Ort) *</label>
+            <input id="kunde_rechnungsadresse" name="kunde_rechnungsadresse" required />
+          </div>
+        </div>
+
+        <h2>Objekt / geplante Anlage</h2>
+        <div class="grid">
+          <div>
+            <label for="objekt_adresse">Objektadresse (falls abweichend)</label>
+            <input id="objekt_adresse" name="objekt_adresse" />
+          </div>
+          <div>
+            <label for="objekt_typ">Objekttyp *</label>
+            <select id="objekt_typ" name="objekt_typ" required>
+              <option value="">Bitte wählen…</option>
+              <option>Einfamilienhaus</option>
+              <option>Zweifamilienhaus</option>
+              <option>Mehrfamilienhaus</option>
+              <option>Reihenhaus</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+          <div>
+            <label for="dachform">Dachform</label>
+            <select id="dachform" name="dachform">
+              <option value="">Bitte wählen…</option>
+              <option>Satteldach</option>
+              <option>Walmdach</option>
+              <option>Pultdach</option>
+              <option>Flachdach</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+          <div>
+            <label for="wuensche">Hinweise / Wünsche (z. B. Speicher, Wallbox, Besonderheiten)</label>
+            <input id="wuensche" name="wuensche" />
+          </div>
+        </div>
+
+        <div class="grid-1">
+          <div>
+            <label for="beschreibung">Kurzbeschreibung / Ziel der Machbarkeitsprüfung</label>
+            <textarea id="beschreibung" name="beschreibung"
+              placeholder="z. B. mögliche Modulleistung, Dachbelegung, Speicher-Option, Netzanschluss-/Zähler-Situation, Verschattung…"></textarea>
+          </div>
+        </div>
+
+        <h2>Beauftragung & Preis</h2>
+        <div class="box">
+          <strong>Pauschale:</strong> 150,00&nbsp;€ inkl. MwSt.<br />
+          <span class="hint">
+            Die Machbarkeitsprüfung umfasst eine technische Ersteinschätzung auf Basis Ihrer Angaben (kein Bauantrag, keine Statikprüfung, keine Netzverträglichkeitsprüfung im Sinne des Netzbetreibers).
+          </span>
+        </div>
+
+        <h2>Erklärungen (Pflicht)</h2>
+        <div class="checks">
+          <label>
+            <input type="checkbox" name="bestaetigung_beauftragung" required />
+            <span>
+              Ich beauftrage die THüSUN PV-Montagen GmbH verbindlich mit der Durchführung der Machbarkeitsprüfung zu der oben genannten Pauschale (150,00&nbsp;€ inkl. MwSt.). *
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" name="private_zwecke" required />
+            <span>
+              Ich bestätige, dass die geplante Photovoltaikanlage überwiegend <strong>privaten Zwecken</strong> dient. *
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" name="ust_0_prozent_voraussetzungen" required />
+            <span>
+              Ich bestätige, dass die Voraussetzungen für die Anwendung des <strong>Umsatzsteuersatzes 0%</strong> nach <strong>§ 12 Abs. 3 UStG</strong> (z. B. Installation auf/nahe Wohngebäude, Betreiber ist Leistungsempfänger etc.) für das PV-Projekt erfüllt sind bzw. erfüllt werden. *
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" name="datenschutz" required />
+            <span>
+              Ich habe die <a href="https://www.thuesun.de/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zur Kenntnis genommen. *
+            </span>
+          </label>
+        </div>
+
+        <h2>Ort, Datum, Unterschrift (digital)</h2>
+        <div class="grid">
+          <div>
+            <label for="ort">Ort *</label>
+            <input id="ort" name="ort" required />
+          </div>
+          <div>
+            <label for="datum">Datum *</label>
+            <input id="datum" name="datum" type="date" required />
+          </div>
+        </div>
+
+        <div class="grid-1">
+          <div>
+            <label for="unterschrift_name">Name für digitale Unterschrift *</label>
+            <input id="unterschrift_name" name="unterschrift_name" required
+                   placeholder="z. B. Max Mustermann" />
+            <div class="hint">
+              Durch Absenden erkläre ich, dass die Eingabe meines Namens als digitale Unterschrift gilt.
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:14px;">
+          <button class="btn" type="submit">Kostenpflichtig beauftragen</button>
+        </div>
+
+        <div class="footer">
+          Anbieterangaben gemäß Impressum: THüSUN PV-Montagen GmbH, Blumenstraße 70 / Haus 1, 99092 Erfurt · HRB 521685 (Registergericht Jena) · USt-IdNr. DE366881373.
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
